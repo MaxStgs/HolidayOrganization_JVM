@@ -1,27 +1,24 @@
 package io.swagger.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.swagger.EMF;
+import io.swagger.annotations.ApiParam;
+import io.swagger.entities.WorkersEntity;
 import io.swagger.model.LoginDetails;
 import io.swagger.model.PostLoginDetails;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
+import javax.persistence.TypedQuery;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
+import javax.validation.Valid;
+
+import static io.swagger.EMF.getEm;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2018-11-20T18:24:21.559Z[GMT]")
 
 @Controller
@@ -41,7 +38,14 @@ public class LoginApiController implements LoginApi {
 
     public ResponseEntity<LoginDetails> loginPost(@ApiParam(value = ""  )  @Valid @RequestBody PostLoginDetails body) {
         String accept = request.getHeader("Accept");
-        if(body.getLogin().equals("MaxStgs") && body.getPassword().equals("12345")){
+
+        TypedQuery<WorkersEntity> query = getEm().
+                createQuery("from WorkersEntity where login = :login and pass = :pass", WorkersEntity.class);
+        query.setParameter("login", body.getLogin())
+                .setParameter("pass", body.getPassword());
+        boolean isRightCreditals = query.getResultList().size() >= 1;
+
+        if(isRightCreditals){
             LoginDetails loginDetails = new LoginDetails();
             loginDetails.setRole("Genius");
             ResponseEntity<LoginDetails> response = new ResponseEntity<LoginDetails>(loginDetails, HttpStatus.OK);
