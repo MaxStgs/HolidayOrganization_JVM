@@ -20,7 +20,7 @@
         <datasource-mapping>
           <factory-entry name="NewPersistenceUnit" value="10185de4-348b-46e6-a750-0a0748da4d2e" />
           <factory-entry name="NewPersistentUnit" value="10185de4-348b-46e6-a750-0a0748da4d2e" />
-          <factory-entry name="UnitPersistence" />
+          <factory-entry name="UnitPersistence" value="1a654324-06f0-4afe-99d3-788d1b487016" />
           <factory-entry name="entityManagerFactory" value="10185de4-348b-46e6-a750-0a0748da4d2e" />
           <factory-entry name="noname-a.xml@0" value="10185de4-348b-46e6-a750-0a0748da4d2e" />
         </datasource-mapping>

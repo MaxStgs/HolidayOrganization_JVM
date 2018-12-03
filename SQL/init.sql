@@ -39,7 +39,9 @@ CREATE TABLE list_workers_for_order(
 CREATE TABLE list_equipments(
   equipment_id    INT NOT NULL,
   order_id        INT NOT NULL,
-  count           INT NOT NULL
+  count           INT NOT NULL,
+  PRIMARY KEY (equipment_id),
+  KEY (order_id)
 );
 
 CREATE TABLE equipments(
@@ -51,8 +53,10 @@ CREATE TABLE equipments(
 
 CREATE TABLE equipment_parts(
   equipment_id    INT NOT NULL,
-  part_id         INT UNIQUE NOT NULL,
-  part_name       VARCHAR(50)
+  part_id         INT NOT NULL,
+  part_name       VARCHAR(50),
+  PRIMARY KEY (equipment_id),
+  KEY (part_id)
 );
 
 CREATE TABLE cars(
@@ -129,10 +133,10 @@ ALTER TABLE orders ADD FOREIGN KEY (list_workers_id) REFERENCES list_workers_for
 
 ALTER TABLE list_workers_for_order ADD FOREIGN KEY (worker_id) REFERENCES workers(worker_id);
 
-ALTER TABLE list_equipments ADD FOREIGN KEY (equipment_id) REFERENCES equipments(equipment_id);
-ALTER TABLE list_equipments ADD FOREIGN KEY (order_id) REFERENCES orders(order_id);
+# ALTER TABLE list_equipments ADD FOREIGN KEY (equipment_id) REFERENCES equipments(equipment_id);
+# ALTER TABLE list_equipments ADD FOREIGN KEY (order_id) REFERENCES orders(order_id);
 
-ALTER TABLE equipment_parts ADD FOREIGN KEY (equipment_id) REFERENCES equipments(equipment_id);
+# ALTER TABLE equipment_parts ADD FOREIGN KEY (equipment_id) REFERENCES equipments(equipment_id);
 
 ALTER TABLE statements ADD FOREIGN KEY(worker_id) REFERENCES workers(worker_id);
 

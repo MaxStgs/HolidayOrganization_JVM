@@ -1,5 +1,8 @@
 package io.swagger.api;
 
+import io.swagger.EMF;
+import io.swagger.converters.TaskConverter;
+import io.swagger.entities.TasksEntity;
 import io.swagger.model.ListOfSubtasks;
 import io.swagger.model.ListOfTasks;
 import io.swagger.model.PostTaskDetails;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -45,7 +49,14 @@ public class TasksApiController implements TasksApi {
 
     public ResponseEntity<ListOfTasks> tasksGet() {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<ListOfTasks>(HttpStatus.NOT_IMPLEMENTED);
+
+        TypedQuery<TasksEntity> query = EMF.getEm().createQuery("from TasksEntity", TasksEntity.class);
+        ListOfTasks listOfTasks = new ListOfTasks();
+
+        for (int i = 0; i < query.getResultList().size(); i++) {
+            listOfTasks.addListItem(TaskConverter.entityToModel(query.getResultList().get(i)));
+        }
+        return new ResponseEntity<ListOfTasks>(listOfTasks, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> tasksPost(@ApiParam(value = ""  )  @Valid @RequestBody PostTaskDetails body) {
@@ -55,7 +66,14 @@ public class TasksApiController implements TasksApi {
 
     public ResponseEntity<TaskDetails> tasksTaskIdGet(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") Integer taskId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<TaskDetails>(HttpStatus.NOT_IMPLEMENTED);
+
+        // Todo: Check working flow, no different ways
+        TypedQuery<TasksEntity> query = EMF.getEm().createQuery("from TasksEntity where id = :id", TasksEntity.class);
+        query.setParameter("id", taskId);
+
+        TaskDetails details = TaskConverter.entityToModel(query.getSingleResult());
+
+        return new ResponseEntity<TaskDetails>(details, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> tasksTaskIdPut(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") Integer taskId,@ApiParam(value = ""  )  @Valid @RequestBody PutTaskDetails body) {

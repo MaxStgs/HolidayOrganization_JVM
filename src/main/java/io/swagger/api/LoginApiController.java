@@ -1,7 +1,6 @@
 package io.swagger.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.EMF;
 import io.swagger.annotations.ApiParam;
 import io.swagger.entities.WorkersEntity;
 import io.swagger.model.LoginDetails;
@@ -48,7 +47,7 @@ public class LoginApiController implements LoginApi {
         if(isRightCreditals){
             LoginDetails loginDetails = new LoginDetails();
             loginDetails.setRole("Genius");
-            ResponseEntity<LoginDetails> response = new ResponseEntity<LoginDetails>(loginDetails, HttpStatus.OK);
+            ResponseEntity<LoginDetails> response = new ResponseEntity<>(loginDetails, HttpStatus.OK);
             return response;
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

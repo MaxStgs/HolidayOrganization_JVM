@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
-
-    <persistence-unit name="UnitPersistence">
+    <persistence-unit name="UnitPersistence" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>io.swagger.entities.WorkersEntity</class>
         <class>io.swagger.entities.CarsEntity</class>
+        <class>io.swagger.entities.ComingsEntity</class>
+        <class>io.swagger.entities.EquipmentPartsEntity</class>
+        <class>io.swagger.entities.EquipmentsEntity</class>
+        <class>io.swagger.entities.ListEquipmentsEntity</class>
+        <class>io.swagger.entities.ListWorkersForOrderEntity</class>
+        <class>io.swagger.entities.OilsEntity</class>
+        <class>io.swagger.entities.OrdersEntity</class>
+        <class>io.swagger.entities.OrdersSiteEntity</class>
+        <class>io.swagger.entities.OutsEntity</class>
+        <class>io.swagger.entities.StatementsEntity</class>
+        <class>io.swagger.entities.SubtasksEntity</class>
+        <class>io.swagger.entities.TasksEntity</class>
+        <class>io.swagger.entities.WorkersEntity</class>
         <properties>
             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/holidaydb"/>
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="1111"/>
             <property name="hibernate.archive.autodetection" value="class"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             <property name="hbm2ddl.auto" value="update"/>
