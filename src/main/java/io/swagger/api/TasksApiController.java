@@ -61,7 +61,14 @@ public class TasksApiController implements TasksApi {
 
     public ResponseEntity<Void> tasksPost(@ApiParam(value = ""  )  @Valid @RequestBody PostTaskDetails body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        TasksEntity entity = TaskConverter.modelToEntity(body);
+
+        EMF.getEm().getTransaction().begin();
+        EMF.getEm().persist(entity);
+        EMF.getEm().getTransaction().commit();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<TaskDetails> tasksTaskIdGet(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") Integer taskId) {
