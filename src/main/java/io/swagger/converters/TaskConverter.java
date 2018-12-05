@@ -4,8 +4,6 @@ import io.swagger.entities.TasksEntity;
 import io.swagger.model.PostTaskDetails;
 import io.swagger.model.TaskDetails;
 
-import java.io.File;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;

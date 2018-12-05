@@ -1,7 +1,9 @@
 package io.swagger.api;
 
 import io.swagger.EMF;
+import io.swagger.converters.SubtaskConverter;
 import io.swagger.converters.TaskConverter;
+import io.swagger.entities.SubtasksEntity;
 import io.swagger.entities.TasksEntity;
 import io.swagger.model.ListOfSubtasks;
 import io.swagger.model.ListOfTasks;
@@ -90,12 +92,25 @@ public class TasksApiController implements TasksApi {
 
     public ResponseEntity<SubtaskDetails> tasksTaskIdSubtaskIdGet(@ApiParam(value = "The Task Id",required=true) @PathVariable("taskId") Integer taskId,@ApiParam(value = "The Subtask Id",required=true) @PathVariable("subtaskId") Integer subtaskId) {
         String accept = request.getHeader("Accept");
+
+
+
         return new ResponseEntity<SubtaskDetails>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<ListOfSubtasks> tasksTaskIdSubtasksGet(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") Integer taskId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<ListOfSubtasks>(HttpStatus.NOT_IMPLEMENTED);
+
+        TypedQuery<SubtasksEntity> query = EMF.getEm().createQuery("from SubtasksEntity where id = :id", SubtasksEntity.class);
+        query.setParameter("id", taskId);
+
+        ListOfSubtasks listOfSubtasks = new ListOfSubtasks();
+
+        for (int i = 0; i < query.getResultList().size(); i++) {
+            listOfSubtasks.addListItem(SubtaskConverter.entityToModel(query.getResultList().get(i)));
+        }
+
+        return new ResponseEntity<ListOfSubtasks>(listOfSubtasks, HttpStatus.OK);
     }
 
 }
