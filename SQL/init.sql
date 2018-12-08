@@ -61,6 +61,7 @@ CREATE TABLE equipment_parts(
 
 CREATE TABLE cars(
   car_id          INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  gov_number      VARCHAR(10) NOT NULL,
   brand           VARCHAR(20) NOT NULL,
   model           VARCHAR(20) NOT NULL,
   ref_map         VARCHAR(64) NOT NULL

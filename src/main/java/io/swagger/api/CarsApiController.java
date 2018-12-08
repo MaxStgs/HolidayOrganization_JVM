@@ -1,5 +1,8 @@
 package io.swagger.api;
 
+import io.swagger.EMF;
+import io.swagger.converters.CarConverter;
+import io.swagger.entities.CarsEntity;
 import io.swagger.model.CarDetails;
 import io.swagger.model.ListOfCars;
 import io.swagger.model.PostCarDetails;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +57,16 @@ public class CarsApiController implements CarsApi {
 
     public ResponseEntity<ListOfCars> carsGet() {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<ListOfCars>(HttpStatus.NOT_IMPLEMENTED);
+
+        TypedQuery<CarsEntity> query = EMF.getEm().createQuery("from CarsEntity", CarsEntity.class);
+
+        ListOfCars listOfCars = new ListOfCars();
+
+        for (int i = 0; i < query.getResultList().size(); i++) {
+            listOfCars.addListItem(CarConverter.entityToModel(query.getResultList().get(i)));
+        }
+
+        return new ResponseEntity<ListOfCars>(listOfCars, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> carsPost(@ApiParam(value = ""  )  @Valid @RequestBody PostCarDetails body) {

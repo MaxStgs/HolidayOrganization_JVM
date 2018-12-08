@@ -23,10 +23,11 @@ VALUES ('Петерс Максим Александрович', 'Photo is not he
         'Шестерка', '4000ff', /* Синий */ 'LowerMan', '1', 0);
 
 INSERT INTO holidaydb.cars
-    (brand, model, ref_map)
-VALUES ('Nissan', 'Z350', 'http://vk.com'),
-       ('BMW', 'x6', 'http://vk.com'),
-       ('Москвич', '413', 'http://vk.com');
+    (brand, model, ref_map, gov_number)
+VALUES ('Nissan', 'Vanette', '43315060977894152259158', 'he23ww96'),
+       ('BMW', 'Dyna', '74215306858194674407377', 'xx777x77'),
+       ('Москвич', 'Atlas', '81915306858758233618672', 'alpha123'),
+       ('Toyota', 'Prado', '21815306858991753516293', 'magic20!8');
 
 INSERT INTO holidaydb.tasks
     (name, date_record, description, worker_id)
