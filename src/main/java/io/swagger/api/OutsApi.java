@@ -31,17 +31,17 @@ import java.util.Map;
 public interface OutsApi {
 
     @ApiOperation(value = "", nickname = "outsGet", notes = "Reading list of outs", response = ListOfOuts.class, tags={ "Outs", })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Good reading outs", response = ListOfOuts.class),
         @ApiResponse(code = 500, message = "Bad reading outs") })
     @RequestMapping(value = "/outs",
-        produces = { "application/json" }, 
+        produces = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<ListOfOuts> outsGet();
 
 
     @ApiOperation(value = "", nickname = "outsOutIdDelete", notes = "Delete out by ID", tags={ "Outs", })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Good delete out by ID"),
         @ApiResponse(code = 404, message = "Bad delete out, not found ID"),
         @ApiResponse(code = 500, message = "Bad delete out") })
@@ -51,18 +51,18 @@ public interface OutsApi {
 
 
     @ApiOperation(value = "", nickname = "outsOutIdGet", notes = "Get out by ID", response = OutDetails.class, tags={ "Outs", })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Good reading out by ID", response = OutDetails.class),
         @ApiResponse(code = 404, message = "Bad reading out, not found ID"),
         @ApiResponse(code = 500, message = "Bad reading out") })
     @RequestMapping(value = "/outs/{outId}",
-        produces = { "application/json" }, 
+        produces = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<OutDetails> outsOutIdGet(@ApiParam(value = "outId",required=true) @PathVariable("outId") Integer outId);
 
 
     @ApiOperation(value = "", nickname = "outsOutIdPut", notes = "Modify out", tags={ "Outs", })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Good modify out by ID"),
         @ApiResponse(code = 404, message = "Bad modify out, not found ID"),
         @ApiResponse(code = 500, message = "Bad modify out") })
@@ -73,11 +73,11 @@ public interface OutsApi {
 
 
     @ApiOperation(value = "", nickname = "outsPost", notes = "Add out", tags={ "Outs", })
-    @ApiResponses(value = { 
+    @ApiResponses(value = {
         @ApiResponse(code = 200, message = "Good add out"),
         @ApiResponse(code = 500, message = "Bad add out") })
     @RequestMapping(value = "/outs",
-        consumes = { "application/json" },
+        consumes = {"multipart/form-data"},
         method = RequestMethod.POST)
     ResponseEntity<Void> outsPost(@ApiParam(value = ""  )  @Valid @RequestBody PostOutDetails body);
 

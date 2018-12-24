@@ -15,5 +15,17 @@ public class EMF {
     EMF() {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("UnitPersistence");
         em = emf.createEntityManager();
+        //em.getTransaction().begin();
     }
+
+    /*
+
+    Solve for all situation with ID
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+
+
+     */
 }

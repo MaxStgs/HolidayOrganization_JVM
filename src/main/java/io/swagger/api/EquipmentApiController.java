@@ -1,5 +1,8 @@
 package io.swagger.api;
 
+import io.swagger.EMF;
+import io.swagger.converters.EquipmentConverter;
+import io.swagger.entities.EquipmentsEntity;
 import io.swagger.model.EquipmentDetails;
 import io.swagger.model.ListOfEquipments;
 import io.swagger.model.PostEquipmentDetails;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -53,7 +57,15 @@ public class EquipmentApiController implements EquipmentApi {
 
     public ResponseEntity<ListOfEquipments> equipmentGet() {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<ListOfEquipments>(HttpStatus.NOT_IMPLEMENTED);
+
+        TypedQuery<EquipmentsEntity> query = EMF.getEm().createQuery("from EquipmentsEntity", EquipmentsEntity.class);
+        ListOfEquipments listOfEquipments = new ListOfEquipments();
+
+        for (int i = 0; i < query.getResultList().size(); i++) {
+            listOfEquipments.addListItem(EquipmentConverter.entityToModel(query.getResultList().get(i)));
+        }
+
+        return new ResponseEntity<ListOfEquipments>(listOfEquipments, HttpStatus.OK);
     }
 
     public ResponseEntity<EquipmentDetails> equipmentOrderIdGet(@ApiParam(value = "orderId",required=true) @PathVariable("orderId") Integer orderId) {

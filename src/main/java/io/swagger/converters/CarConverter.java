@@ -2,6 +2,8 @@ package io.swagger.converters;
 
 import io.swagger.entities.CarsEntity;
 import io.swagger.model.CarDetails;
+import io.swagger.model.PostCarDetails;
+import io.swagger.model.PutCarDetails;
 
 public class CarConverter {
 
@@ -27,5 +29,25 @@ public class CarConverter {
         details.setModel(entity.getModel());
 
         return details;
+    }
+
+    public static CarsEntity postModelToEntity(PostCarDetails postCarDetails) {
+        CarsEntity carsEntity = new CarsEntity();
+
+        carsEntity.setBrand(postCarDetails.getMark());
+        carsEntity.setModel(postCarDetails.getModel());
+        carsEntity.setGovNumber(postCarDetails.getGovNumber());
+        carsEntity.setRefMap(postCarDetails.getLinkToChip());
+
+        return carsEntity;
+    }
+
+    public static CarsEntity putModelToEntity(CarsEntity carsEntity, PutCarDetails putCarDetails) {
+        carsEntity.setBrand(putCarDetails.getMark());
+        carsEntity.setModel(putCarDetails.getModel());
+        carsEntity.setGovNumber(putCarDetails.getGovNumber());
+        carsEntity.setRefMap(putCarDetails.getLinkToChip());
+
+        return carsEntity;
     }
 }

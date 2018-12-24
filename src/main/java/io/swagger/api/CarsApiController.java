@@ -52,14 +52,20 @@ public class CarsApiController implements CarsApi {
 
     public ResponseEntity<Void> carsCarIdPut(@ApiParam(value = "carId",required=true) @PathVariable("carId") Integer carId,@ApiParam(value = ""  )  @Valid @RequestBody PutCarDetails body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        CarsEntity carsEntity = EMF.getEm().find(CarsEntity.class, carId);
+
+        EMF.getEm().getTransaction().begin();
+        EMF.getEm().persist(CarConverter.putModelToEntity(carsEntity, body));
+        EMF.getEm().getTransaction().commit();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<ListOfCars> carsGet() {
         String accept = request.getHeader("Accept");
 
         TypedQuery<CarsEntity> query = EMF.getEm().createQuery("from CarsEntity", CarsEntity.class);
-
         ListOfCars listOfCars = new ListOfCars();
 
         for (int i = 0; i < query.getResultList().size(); i++) {
@@ -71,7 +77,13 @@ public class CarsApiController implements CarsApi {
 
     public ResponseEntity<Void> carsPost(@ApiParam(value = ""  )  @Valid @RequestBody PostCarDetails body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        EMF.getEm().getTransaction().begin();
+        CarsEntity workersEntity = CarConverter.postModelToEntity(body);
+        EMF.getEm().persist(workersEntity);
+        EMF.getEm().getTransaction().commit();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

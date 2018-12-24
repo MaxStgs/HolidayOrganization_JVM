@@ -105,7 +105,6 @@ public class PostOutDetails   {
    * @return photo
   **/
   @ApiModelProperty(value = "")
-
   @Valid
 
   public File getPhoto() {

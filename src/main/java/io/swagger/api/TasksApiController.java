@@ -76,7 +76,6 @@ public class TasksApiController implements TasksApi {
     public ResponseEntity<TaskDetails> tasksTaskIdGet(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") Integer taskId) {
         String accept = request.getHeader("Accept");
 
-        // Todo: Check working flow, no different ways
         TypedQuery<TasksEntity> query = EMF.getEm().createQuery("from TasksEntity where id = :id", TasksEntity.class);
         query.setParameter("id", taskId);
 
@@ -101,8 +100,8 @@ public class TasksApiController implements TasksApi {
     public ResponseEntity<ListOfSubtasks> tasksTaskIdSubtasksGet(@ApiParam(value = "taskId",required=true) @PathVariable("taskId") Integer taskId) {
         String accept = request.getHeader("Accept");
 
-        TypedQuery<SubtasksEntity> query = EMF.getEm().createQuery("from SubtasksEntity where id = :id", SubtasksEntity.class);
-        query.setParameter("id", taskId);
+        TypedQuery<SubtasksEntity> query = EMF.getEm().createQuery("from SubtasksEntity where taskId = :taskId", SubtasksEntity.class);
+        query.setParameter("taskId", taskId);
 
         ListOfSubtasks listOfSubtasks = new ListOfSubtasks();
 

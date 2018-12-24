@@ -1,5 +1,8 @@
 package io.swagger.api;
 
+import io.swagger.EMF;
+import io.swagger.converters.ComingConverter;
+import io.swagger.entities.ComingsEntity;
 import io.swagger.model.ComingDetails;
 import io.swagger.model.ListOfComings;
 import io.swagger.model.PostComingDetails;
@@ -63,7 +66,13 @@ public class ComingsApiController implements ComingsApi {
 
     public ResponseEntity<Void> comingsPost(@ApiParam(value = ""  )  @Valid @RequestBody PostComingDetails body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        EMF.getEm().getTransaction().begin();
+        ComingsEntity comingsEntity = ComingConverter.postModelToEntity(body);
+        EMF.getEm().persist(comingsEntity);
+        EMF.getEm().getTransaction().commit();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

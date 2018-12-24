@@ -46,7 +46,7 @@ public class LoginApiController implements LoginApi {
 
         if(isRightCreditals){
             LoginDetails loginDetails = new LoginDetails();
-            loginDetails.setRole("Genius");
+            loginDetails.setRole(query.getResultList().get(0).getRole());
             ResponseEntity<LoginDetails> response = new ResponseEntity<>(loginDetails, HttpStatus.OK);
             return response;
         } else {

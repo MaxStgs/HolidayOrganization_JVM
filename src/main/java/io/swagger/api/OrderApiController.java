@@ -1,5 +1,8 @@
 package io.swagger.api;
 
+import io.swagger.EMF;
+import io.swagger.converters.OrderFromSiteConverter;
+import io.swagger.entities.OrdersSiteEntity;
 import io.swagger.model.ListOfOrdersFromSite;
 import io.swagger.model.OrderFromSiteDetails;
 import io.swagger.model.PostOrderFromSiteDetails;
@@ -52,7 +55,13 @@ public class OrderApiController implements OrderApi {
 
     public ResponseEntity<Void> orderPost(@ApiParam(value = ""  )  @Valid @RequestBody PostOrderFromSiteDetails body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        EMF.getEm().getTransaction().begin();
+        OrdersSiteEntity ordersSiteEntity = OrderFromSiteConverter.postModelToEntity(body);
+        EMF.getEm().persist(ordersSiteEntity);
+        EMF.getEm().getTransaction().commit();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

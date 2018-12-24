@@ -12,7 +12,7 @@ CREATE TABLE workers(
   user_color      VARCHAR(6) NOT NULL,
   login           VARCHAR(20) NOT NULL,
   pass            VARCHAR(20) NOT NULL,
-  rate            INT NOT NULL
+  rating          FLOAT NOT NULL
 );
 
 CREATE TABLE orders(
@@ -55,7 +55,7 @@ CREATE TABLE equipment_parts(
   equipment_id    INT NOT NULL,
   part_id         INT NOT NULL,
   part_name       VARCHAR(50),
-  PRIMARY KEY (equipment_id),
+  PRIMARY KEY (equipment_id, part_id),
   KEY (part_id)
 );
 
@@ -102,10 +102,11 @@ CREATE TABLE oils(
 
 CREATE TABLE orders_site(
   order_site_id   INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  dateDay         VARCHAR(30) NOT NULL,
   city            VARCHAR(50) NOT NULL,
   place           VARCHAR(100) NOT NULL,
-  start_time      DATETIME NOT NULL,
-  end_time        DATETIME NOT NULL,
+  start_time      VARCHAR(50) NOT NULL,
+  end_time        VARCHAR(50) NOT NULL,
   phone           VARCHAR(20) NOT NULL,
   email_address   VARCHAR(50) NOT NULL,
   attraction      VARCHAR(2000) NOT NULL,

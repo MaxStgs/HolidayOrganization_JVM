@@ -2,6 +2,7 @@ Problems:
 Swagger - TaskDetails - Haven't Column "Name"
 Swagger - Subtasks - POST, PUT, DELETE not exists
 Swagger - Tasks - DELETE not exists
+Swagger - orders - get return nothing
 
 Warnings:
 Swagger - TaskDetails - Problem with Date, in model this have 'File' type

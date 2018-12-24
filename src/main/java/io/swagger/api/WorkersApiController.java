@@ -1,5 +1,8 @@
 package io.swagger.api;
 
+import io.swagger.EMF;
+import io.swagger.converters.WorkerConverter;
+import io.swagger.entities.WorkersEntity;
 import io.swagger.model.ListOfWorkers;
 import io.swagger.model.PostWorkerDetails;
 import io.swagger.model.PutWorkerDetails;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.persistence.TypedQuery;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -43,27 +47,54 @@ public class WorkersApiController implements WorkersApi {
 
     public ResponseEntity<ListOfWorkers> workersGet() {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<ListOfWorkers>(HttpStatus.NOT_IMPLEMENTED);
+
+        TypedQuery<WorkersEntity> query = EMF.getEm().createQuery("from WorkersEntity", WorkersEntity.class);
+        ListOfWorkers listOfWorkers = new ListOfWorkers();
+
+        for (int i = 0; i < query.getResultList().size(); i++) {
+            listOfWorkers.addListItem(WorkerConverter.entityToModel(query.getResultList().get(i)));
+        }
+        return new ResponseEntity<ListOfWorkers>(listOfWorkers, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> workersOrderIdGet(@ApiParam(value = "orderId",required=true) @PathVariable("orderId") Integer orderId) {
         String accept = request.getHeader("Accept");
+
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Void> workersPost(@ApiParam(value = ""  )  @Valid @RequestBody PostWorkerDetails body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        EMF.getEm().getTransaction().begin();
+        WorkersEntity workersEntity = WorkerConverter.postModelToEntity(body);
+        EMF.getEm().persist(workersEntity);
+        EMF.getEm().getTransaction().commit();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<WorkerDetails> workersWorkerIdGet(@ApiParam(value = "workerId",required=true) @PathVariable("workerId") Integer workerId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<WorkerDetails>(HttpStatus.NOT_IMPLEMENTED);
+
+        TypedQuery<WorkersEntity> query = EMF.getEm().createQuery("from WorkersEntity", WorkersEntity.class);
+        WorkerDetails workerDetails = WorkerConverter.entityToModel(query.getResultList().get(0));
+        if(workerDetails == null) {
+            return new ResponseEntity<WorkerDetails>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<WorkerDetails>(workerDetails, HttpStatus.OK);
     }
 
     public ResponseEntity<Void> workersWorkerIdPut(@ApiParam(value = "workerId",required=true) @PathVariable("workerId") Integer workerId,@ApiParam(value = ""  )  @Valid @RequestBody PutWorkerDetails body) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+
+        WorkersEntity workersEntity = EMF.getEm().find(WorkersEntity.class, workerId);
+
+        EMF.getEm().getTransaction().begin();
+        EMF.getEm().persist(WorkerConverter.putModelToEntity(workersEntity, body));
+        EMF.getEm().getTransaction().commit();
+
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
 }

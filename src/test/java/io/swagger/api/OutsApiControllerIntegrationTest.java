@@ -5,6 +5,7 @@ import io.swagger.model.OutDetails;
 import io.swagger.model.PostOutDetails;
 import io.swagger.model.PutOutDetails;
 
+import java.io.File;
 import java.util.*;
 
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.threeten.bp.OffsetDateTime;
 
 import static org.junit.Assert.assertEquals;
 
@@ -54,7 +56,18 @@ public class OutsApiControllerIntegrationTest {
 
     @Test
     public void outsPostTest() throws Exception {
+        String comments = "comments_example";
+        OffsetDateTime date = OffsetDateTime.now();
+        Float total = 3.4F;
+        File photo = new File("L:\\Безымянный.jpg");
+        Integer idStatement = 56;
+        //comments, date, total, photo, idStatement
         PostOutDetails body = new PostOutDetails();
+        body.setTotal(total);
+        body.setIdStatement(idStatement);
+        body.setComments(comments);
+        body.setDate(date);
+        body.setPhoto(photo);
         ResponseEntity<Void> responseEntity = api.outsPost(body);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }

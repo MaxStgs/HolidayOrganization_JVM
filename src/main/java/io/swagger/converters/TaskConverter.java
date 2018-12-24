@@ -15,6 +15,7 @@ public class TaskConverter {
 
         model.setId(entity.getTaskId());
         model.setDescription(entity.getDescription());
+        model.setIdWorker(entity.getWorkerId());
         // Todo: After swagger1update. Update date.
         //model.setDate(new File(entity.getDateRecord().toString()));
         return model;
